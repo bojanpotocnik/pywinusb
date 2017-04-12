@@ -1485,18 +1485,20 @@ class HidReport(object):
         if not raw_data:
             # we'll construct the raw report
             self.__prepare_raw_data()
+            # reference proper object
+            raw_data = self.__raw_data
         elif not ( isinstance(raw_data, ctypes.Array) and \
                 issubclass(raw_data._type_, c_ubyte) ):
             # pre-memory allocation for performance
             self.__alloc_raw_data(raw_data)
-        #reference proper object
-        raw_data = self.__raw_data
+            # reference proper object
+            raw_data = self.__raw_data
         if self.__report_kind == HidP_Output:
             return self.__hid_object.send_output_report(raw_data)
         elif self.__report_kind == HidP_Feature:
             return self.__hid_object.send_feature_report(raw_data)
         else:
-            pass #can't get here (yet)
+            pass # can't get here (yet)
 
     def get(self, do_process_raw_report = True):
         "Read report from device"
